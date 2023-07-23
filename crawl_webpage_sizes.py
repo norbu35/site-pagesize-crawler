@@ -45,7 +45,7 @@ def crawl(url, writer, visited_urls=None):
                 crawl(link, writer, visited_urls)
 
     except requests.exceptions.RequestException as e:
-        print("Error fetching page:", e)
+        raise e
 
 
 if __name__ == "__main__":
@@ -66,9 +66,13 @@ if __name__ == "__main__":
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
 
-        crawl(url, writer)
+        try:
+            crawl(url, writer)
 
-    print("\n********************************************************")
-    print("Crawling completed for URL:", url)
-    print("Data saved to", file_name)
-    print("********************************************************\n")
+            print("\n********************************************************")
+            print("Crawling completed for URL:", url)
+            print("Data saved to", file_name)
+            print("********************************************************\n")
+
+        except requests.exceptions.RequestException as e:
+            print("Error fetching page:", e)
