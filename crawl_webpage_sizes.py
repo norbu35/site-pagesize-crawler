@@ -12,7 +12,7 @@ def get_url_from_user():
         url = input("Website URL: ")
         if re.match(pattern, url):
             return url
-        print("Invalid URL format [http(s)://example.com]")
+        print("Invalid URL format. Accepted format: http(s)://example.com")
 
 
 def crawl(url, writer, visited_urls=None):
@@ -51,7 +51,8 @@ def crawl(url, writer, visited_urls=None):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Crawl a website and save page sizes to csv.")
-    parser.add_argument('url', type=str, help='Website URL to crawl.')
+    parser.add_argument('url', type=str, nargs='?',
+                        help='Website URL to crawl.')
     args = parser.parse_args()
 
     if args.url:
